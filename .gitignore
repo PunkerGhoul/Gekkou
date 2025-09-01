@@ -1,0 +1,4 @@
+env.nix
+
+# Ignore Visual Studio Code settings
+.vscode/

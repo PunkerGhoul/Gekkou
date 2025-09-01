@@ -1,0 +1,241 @@
+;; EWW Bar Configuration - Cyberpunk Purple Theme
+;; Variables and Polls
+
+(defpo      (revealer :transition "slideleft" :reveal time_rev :duration "350ms"
+        (button :class "clock_date_class" :onclick "$HOME/.config/eww/bar/scripts/pop calendar" clock_date)))))
+
+(defwidget volum []
+  (eventbox :onhover "${eww} update vol_reveal=true" :onhoverlost "${eww} update vol_reveal=false"
+    (box :space-evenly "false" :orientation "h" :spacing "2" 
+      (button :onclick "$HOME/.config/eww/bar/scripts/volume --toggle" 
+              :class "volume_icon" 
+              "${volume_muted == \"true\" ? \"\" : (volume_percent < 50 ? \"\" : \"\")}")
+      (revealer :transition "slideleft" :reveal vol_reveal :duration "350ms"
+        (scale    :class "volbar" :value volume_percent :orientation "h" :tooltip "${volume_percent}%" :max 100 :min 0 :onchange "pamixer --set-volume {}" )))))e :interval "5m" "date +\%I")
+(defpoll clock_minute :interval "5s" "date +\%M")
+(defpoll clock_date :interval "10h" "date '+%d/%m'")onfiguration - Cyberpunk Purple Theme
+;; Variables and Polls
+(defwidget volum []
+  (eventbox :onhover "${eww} update vol_reveal=true" :onhoverlost "${eww} update vol_reveal=false"
+    (box :space-evenly "false" :orientation "h" :spacing "2" 
+      (button :onclick "$HOME/.config/eww/bar/scripts/volume --toggle" 
+              :class "volume_icon" 
+              "${volume_muted == "true" ? "" : (volume_percent < 50 ? "" : "")}")
+      (revealer :transition "slideleft" :reveal vol_reveal :duration "350ms"
+        (scale    :class "volbar" :value volume_percent :orientation "h" :tooltip "${volume_percent}%" :max 100 :min 0 :onchange "pamixer --set-volume {}" )))))l clock_time :interval "5m" "date +\%I")
+(defpoll clock_minute :interval "5s" "date +\%M")
+(defpoll clock_date :interval "10h" "date '+%d/%m'")
+(defpoll volume_percent :interval "3s" :initial "50" "$HOME/.config/eww/bar/scripts/volume")
+(defpoll mic_percent :interval "3s" :initial "50" "$HOME/.config/eww/bar/scripts/volume")
+(defpoll volume_muted :interval "3s" :initial "false" "pamixer --get-mute")
+
+(defpoll memory :interval "15s" :initial "0" "$HOME/.config/eww/bar/scripts/memory")
+(defpoll memory_used_mb :interval "2m" "$HOME/.config/eww/bar/scripts/mem-ad used")
+(defpoll memory_total_mb :interval "2m" "$HOME/.config/eww/bar/scripts/mem-ad total")
+(defpoll memory_free_mb :interval "2m" "$HOME/.config/eww/bar/scripts/mem-ad free")
+
+(defvar vol_reveal false)
+(defvar music_reveal false)
+(defvar wifi_rev false)
+(defvar time_rev false)
+
+(deflisten workspace "$HOME/.config/eww/bar/scripts/workspace")
+
+(defvar eww "$HOME/.local/bin/eww -c $HOME/.config/eww")
+
+(defpoll ESSID_WLAN :interval "1m" "$HOME/.config/eww/bar/scripts/wifi --ESSID")
+(defpoll WLAN_ICON :interval "1m" "$HOME/.config/eww/bar/scripts/wifi --ICON")
+
+(defpoll song :interval "2s"  "$HOME/.config/eww/bar/scripts/music_info_playerctl --song")
+(defpoll song_artist :interval "2s"  "$HOME/.config/eww/bar/scripts/music_info_playerctl --artist")
+(defpoll current_status :interval "1s"  "$HOME/.config/eww/bar/scripts/music_info_playerctl --time")
+(defpoll song_status :interval "2s"  "$HOME/.config/eww/bar/scripts/music_info_playerctl --status")
+(defpoll cover_art :interval "2s"  "$HOME/.config/eww/bar/scripts/music_info_playerctl --cover")
+
+(defpoll calendar_day :interval "20h" "date '+%d'")
+(defpoll calendar_year :interval "20h" "date '+%Y'")
+
+;; Widgets
+
+(defwidget wifi [] 
+  (eventbox :onhover "${eww} update wifi_rev=true"
+            :onhoverlost "${eww} update wifi_rev=false"
+    (box :vexpand "false" :hexpand "false" :space-evenly "false"
+      (button :class "module-wif-large" 
+              :onclick "networkmanager_dmenu"
+              WLAN_ICON)
+      (revealer :transition "slideright"
+                :reveal wifi_rev
+                :duration "350ms"
+        (label :class "module_essid"
+               :text ESSID_WLAN)))))
+
+(defwidget workspaces []
+  (literal :content workspace))
+
+(defwidget mem []
+  (box :class "mem_module" :vexpand "false" :hexpand "false" 
+    (circular-progress :value memory
+                       :class "membar" 
+                       :thickness 4
+      (button :class "iconmem" :tooltip "using ${memory}%" :onclick "$HOME/.config/eww/bar/scripts/pop system"
+        ""))))
+
+(defwidget sep []
+  (box :class "module-2" :vexpand "false" :hexpand "false"
+    (label :class "separ" :text "|")))
+
+(defwidget clock_module []
+  (eventbox :onhover "${eww} update time_rev=true" :onhoverlost "${eww} update time_rev=false"
+    (box :space-evenly "false" :orientation "h" :spacing "3" 
+      (label :text clock_time :class "clock_time_class" )
+      (label :text ":" :class "clock_time_sep" )
+      (label :text clock_minute :class "clock_minute_class")
+      (revealer :transition "slideleft" :reveal time_rev :duration "350ms"
+        (button :class "clock_date_class" :onclick "$HOME/.config/eww/bar/scripts/pop calendar" clock_date)))))
+
+(defwidget volum []
+  (eventbox :onhover "${eww} update vol_reveal=true" :onhoverlost "${eww} update vol_reveal=false"
+    (box :space-evenly "false" :orientation "h" :spacing "2" 
+      (button :onclick "$HOME/.config/eww/bar/scripts/volume --toggle" 
+              :class "volume_icon" 
+              (if volume_muted "" 
+                  (if (< volume_percent 50) "" "")))
+      (revealer :transition "slideleft" :reveal vol_reveal :duration "350ms"
+        (scale    :class "volbar" :value volume_percent :orientation "h" :tooltip "${volume_percent}%" :max 100 :min 0 :onchange "pamixer --set-volume {}" )))))
+
+(defwidget music []
+  (eventbox :onhover "${eww} update music_reveal=true" :onhoverlost "${eww} update music_reveal=false"
+    (box :class "module-2" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false" 
+      (button :class "song_btn_prev" :onclick "playerctl previous" "")
+      (button :class "song_btn_play" :onclick "playerctl play-pause" song_status)
+      (button :class "song_btn_next" :onclick "playerctl next" "")
+      (revealer :transition "slideleft" :reveal music_reveal :duration "350ms"
+        (button :class "song" :tooltip song :onclick "$HOME/.config/eww/bar/scripts/pop music_win" song)))))  
+
+;; Wofi Launcher Widget
+(defwidget wofi_launcher []
+  (button :class "wofi_launcher" 
+          :onclick "wofi --show drun &" 
+          ""))
+
+;; Bar
+
+(defwidget left []
+  (box :orientation "h" 
+       :space-evenly false  
+       :halign "start"
+       :valign "center"
+       :class "left_modules"
+       :spacing 10
+    (wofi_launcher)
+    (workspaces)))
+
+(defwidget center []
+  (box :orientation "h" 
+       :space-evenly false  
+       :halign "center"
+       :valign "center"
+       :class "center_modules"
+       :spacing 10
+    (music)))
+
+(defwidget right []
+  (box :orientation "h" 
+       :space-evenly false 
+       :halign "end" 
+       :valign "center"
+       :class "right_modules"
+       :spacing 10
+    (volum)
+    (wifi)
+    (mem)
+    (clock_module)))
+
+(defwidget bar_1 []
+  (box :class "bar_class"
+       :orientation "h"
+       :valign "center"
+    (left)
+    (center)
+    (right)))
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "5px"
+                      :width "98%"
+                      :height "24px"
+                      :anchor "top center")
+  :stacking "fg"
+  :windowtype "dock"
+  :reserve (struts :side "top" :distance "29px")
+  :layer "top"
+  :exclusive true
+  (bar_1))
+  
+(defwidget system []
+  (box :class "sys_win" :orientation "v" :space-evenly "false" :hexpand "false" :vexpand "false" :spacing 0
+    (box :class "sys_mem_box" :orientation "h" :space-evenly "false" :halign "start"
+      (circular-progress :value memory
+                         :class "sys_mem"
+                         :thickness 9
+        (label :text "" :class "sys_icon_mem" :wrap false))
+      (box :orientation "v" :space-evenly "false" :spacing 0 :halign "start" :vexpand "false" :hexpand "false"
+        (label :text "mem:" :class "sys_text_mem" :valign "start" :halign "start" )
+        (label :text "${memory_used_mb} | ${memory_total_mb}mb " :class "sys_text_mem_sub" :valign "start" :halign "start")))
+    ))
+
+(defwindow calendar
+  :geometry (geometry :x "0px" 
+                      :y "7%" 
+                      :width "270px" 
+                      :height "60px")
+(calendar :class "cal" :day calendar_day :year calendar_year))
+
+(defpoll current_volume :interval "1s" "pamixer --get-volume")
+(defpoll mic_volume :interval "1s" "pamixer --default-source --get-volume")
+
+(defwindow audio_ctl
+  :geometry (geometry :x "0px" :y "7%" :width "280px" :height "300px")
+  (audio))
+
+(defwidget audio []
+  (box :class "audio-box" :orientation "v" :space-evenly "false" :vexpand "false" :hexpand "false"
+    (box :halign "center" :space-evenly "false" :hexpand "false" :vexpand "false"
+      (label :text "墳" :class "speaker_icon")
+      (box :orientation "v" :halign "center" :vexpand "false" :hexpand "false"
+        (label :text "speaker" :class "speaker_text" :valign "center" :halign "left" )
+        (scale :class "speaker_bar" :value current_volume :orientation "h" :tooltip "${current_volume}%" :max 100 :min 0 :onchange "pamixer --set-volume {}" )))
+    (label :text "○" :class "audio_sep" :valign "center" :halign "center" )
+    (box :halign "center" :space-evenly "false" :hexpand "false" :vexpand "false"
+      (label :text "" :class "mic_icon")
+      (box :orientation "v" :halign "center" :vexpand "false" :hexpand "false"
+        (label :text "mic" :class "mic_text" :valign "center" :halign "left" )
+        (scale :class "mic_bar" :value mic_volume :orientation "h" :tooltip "${mic_volume}%" :max 100 :min 0 :onchange "pamixer --default-source --set-volume {}" )))))
+
+(defwindow system
+  :geometry (geometry :x "0px" :y "7%" :width "290px" :height "120px")
+  (system))
+
+(defpoll song_length :interval "1s" "playerctl --ignore-player=firefox metadata --format \"{{ duration(mpris:length) }}\" 2>/dev/null")
+(defpoll song_pos :interval "1s" "playerctl --ignore-player=firefox metadata --format \"{{ position }}\" 2>/dev/null")
+(defpoll song_length_raw :interval "1s" "playerctl --ignore-player=firefox metadata --format \"{{ mpris:length }}\" 2>/dev/null")
+(defpoll song_pos_raw :interval "1s" "playerctl --ignore-player=firefox position 2>/dev/null")
+
+(defwindow music_win 
+  :geometry (geometry :x "0px" :y "7%" :width "428px" :height "104px")
+  (music_pop))
+
+(defwidget music_pop []
+  (box :class "music_pop" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
+    (box :class "music_cover_art" :vexpand "false" :hexpand "false" :style "background-image: url('${cover_art}');")
+    (box :orientation "v" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false"
+      (label :halign "center" :class "music" :wrap "true" :text song)
+      (label :halign "center" :class "music_artist" :wrap "true" :text song_artist)
+      (box :orientation "h" :spacing 15 :halign "center" :space-evenly "false" :vexpand "false" :hexpand "false"
+        (button :class "music_btn_prev" :onclick "playerctl previous" "")
+        (button :class "music_btn_play" :onclick "playerctl play-pause" song_status)
+        (button :class "music_btn_next" :onclick "playerctl next" ""))
+      (box :class "music_bar" :halign "center" :vexpand "false" :hexpand "false"
+        (scale :onchange "playerctl position {}" :min 0 :active song_length_raw :max song_length_raw :value song_pos_raw)))))

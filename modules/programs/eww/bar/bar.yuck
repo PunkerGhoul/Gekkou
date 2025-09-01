@@ -1,0 +1,8 @@
+;; EWW Bar Configuration - Cyberpunk Purple Theme
+;; Modular Structure
+
+;; Import all modules
+(include "$HOME/.config/eww/bar/variables.yuck")
+(include "$HOME/.config/eww/bar/widgets.yuck")
+(include "$HOME/.config/eww/bar/layout.yuck")
+(include "$HOME/.config/eww/bar/windows.yuck")

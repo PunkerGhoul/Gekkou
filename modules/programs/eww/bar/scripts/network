@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Obtener las interfaces activas
+get_active_interfaces() {
+    ip link show | grep "state UP" | awk -F': ' '{print $2}' | grep -v "lo"
+}
+
+# Determinar el tipo de interfaz
+get_interface_type() {
+    local interface=$1
+    if [[ "$interface" == en* ]] || [[ "$interface" == eth* ]]; then
+        echo "ethernet"
+    elif [[ "$interface" == wl* ]] || [[ "$interface" == wifi* ]]; then
+        echo "wifi"
+    else
+        # Verificar si es wireless mediante /sys
+        if [ -d "/sys/class/net/$interface/wireless" ]; then
+            echo "wifi"
+        else
+            echo "ethernet"
+        fi
+    fi
+}
+
+# Verificar si la interfaz tiene IP asignada
+has_ip_address() {
+    local interface=$1
+    ip addr show "$interface" | grep -q "inet "
+}
+
+# Obtener información de WiFi
+get_wifi_ssid() {
+    local interface=$1
+    if command -v iw &>/dev/null; then
+        iw dev "$interface" link | grep "SSID" | awk '{print $2}'
+    elif [ -f "/proc/net/wireless" ]; then
+        # Método alternativo usando iwgetid si está disponible
+        if command -v iwgetid &>/dev/null; then
+            iwgetid -r "$interface"
+        else
+            echo "WiFi"
+        fi
+    else
+        echo "WiFi"
+    fi
+}
+
+# Lógica principal
+interface=$(get_active_interfaces | head -n 1)
+
+if [ -n "$interface" ] && has_ip_address "$interface"; then
+    connection_type=$(get_interface_type "$interface")
+    
+    if [ "$connection_type" = "ethernet" ]; then
+        icon="󰈀"
+        text="Ethernet"
+    else
+        icon="󰖩"
+        ssid=$(get_wifi_ssid "$interface")
+        text="${ssid:-WiFi}"
+    fi
+    col="#e879f9"
+else
+    icon="󰌙"
+    text="Offline"
+    col="#6b21a8"
+fi
+
+case "$1" in
+    "--COL") echo $col ;;
+    "--ESSID") echo $text ;;
+    "--ICON") echo $icon ;;
+esac

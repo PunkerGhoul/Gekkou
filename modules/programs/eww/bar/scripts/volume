@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Script de volumen robusto para VM
+get_volume() {
+    local vol=""
+    
+    # Intenta wpctl primero
+    if command -v wpctl >/dev/null 2>&1; then
+        vol=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null | awk '{print $2}' 2>/dev/null)
+        if [ -n "$vol" ] && [ "$vol" != "" ]; then
+            # Convertir decimal a porcentaje
+            vol=$(awk "BEGIN {printf \"%.0f\", $vol * 100}" 2>/dev/null)
+            if [ -n "$vol" ] && [ "$vol" -ge 0 ] 2>/dev/null; then
+                echo "$vol"
+                return
+            fi
+        fi
+    fi
+    
+    # Intenta pactl
+    if command -v pactl >/dev/null 2>&1; then
+        vol=$(pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | grep -oP '\d+%' | head -1 | tr -d '%' 2>/dev/null)
+        if [ -n "$vol" ] && [ "$vol" -ge 0 ] 2>/dev/null; then
+            echo "$vol"
+            return
+        fi
+    fi
+    
+    # Intenta amixer
+    if command -v amixer >/dev/null 2>&1; then
+        vol=$(amixer sget Master 2>/dev/null | grep -oP '\d+%' | head -1 | tr -d '%' 2>/dev/null)
+        if [ -n "$vol" ] && [ "$vol" -ge 0 ] 2>/dev/null; then
+            echo "$vol"
+            return
+        fi
+    fi
+    
+    # Fallback: siempre devuelve un número válido
+    echo "50"
+}
+
+get_volume

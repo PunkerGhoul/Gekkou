@@ -1,0 +1,94 @@
+#!/bin/bash
+COVER="/tmp/.music_cover.png"
+DEFAULT_COVER="images/music.png"
+
+get_status() {
+    status=$(playerctl status 2>/dev/null || echo "Stopped")
+    case $status in
+        "Playing") echo "" ;;
+        "Paused") echo "奈" ;;
+        *) echo "" ;;
+    esac
+}
+
+get_song() {
+    song=$(playerctl metadata title 2>/dev/null)
+    if [[ -z "$song" ]] || [[ "$song" == "No players found" ]]; then
+        echo "No Music"
+    else
+        if [[ ${#song} -gt 30 ]]; then
+            echo "${song:0:27}..."
+        else
+            echo "$song"
+        fi
+    fi	
+}
+
+get_artist() {
+    artist=$(playerctl metadata artist 2>/dev/null)
+    if [[ -z "$artist" ]] || [[ "$artist" == "No players found" ]]; then
+        echo "Unknown Artist"
+    else
+        if [[ ${#artist} -gt 25 ]]; then
+            echo "${artist:0:22}..."
+        else
+            echo "$artist"
+        fi
+    fi	
+}
+
+get_time() {
+    position=$(playerctl metadata --format "{{ position }}" 2>/dev/null)
+    length=$(playerctl metadata --format "{{ mpris:length }}" 2>/dev/null)
+    
+    if [[ -n "$position" ]] && [[ -n "$length" ]] && [[ "$length" -gt 0 ]]; then
+        percentage=$((position * 100 / length))
+        echo "$percentage"
+    else
+        echo "0"
+    fi	
+}
+
+get_ctime() {
+    position=$(playerctl metadata --format "{{ duration(position) }}" 2>/dev/null)
+    echo "${position:-0:00}"
+}
+
+get_ttime() {
+    duration=$(playerctl metadata --format "{{ duration(mpris:length) }}" 2>/dev/null)
+    echo "${duration:-0:00}"
+}
+
+get_cover() {
+    artUrl=$(playerctl metadata mpris:artUrl 2>/dev/null)
+    
+    if [[ -n "$artUrl" ]] && [[ "$artUrl" != "No players found" ]]; then
+        if [[ "$artUrl" == file://* ]]; then
+            localPath="${artUrl#file://}"
+            if [[ -f "$localPath" ]]; then
+                cp "$localPath" "$COVER" 2>/dev/null && echo "$COVER" || echo "$DEFAULT_COVER"
+            else
+                echo "$DEFAULT_COVER"
+            fi
+        elif [[ "$artUrl" == http* ]]; then
+            curl -s "$artUrl" -o "$COVER" 2>/dev/null && echo "$COVER" || echo "$DEFAULT_COVER"
+        else
+            echo "$DEFAULT_COVER"
+        fi
+    else
+        echo "$DEFAULT_COVER"
+    fi
+}
+
+case "$1" in
+    "--song") get_song ;;
+    "--artist") get_artist ;;
+    "--status") get_status ;;
+    "--time") get_time ;;
+    "--ctime") get_ctime ;;
+    "--ttime") get_ttime ;;
+    "--cover") get_cover ;;
+    "--toggle") playerctl play-pause 2>/dev/null ;;
+    "--next") playerctl next 2>/dev/null; get_cover ;;
+    "--prev") playerctl previous 2>/dev/null; get_cover ;;
+esac

@@ -1,0 +1,545 @@
+/** EWW Bar Styles - Cyberpunk Purple Theme **/
+
+/** Bar Container **/
+.bar_class {
+    background-color: rgba(26, 15, 46, 0.95);
+    border-radius: 10px;
+    padding: 0 8px;
+    margin: 6.5px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+* {
+    all: unset;
+}
+
+box, label, button, eventbox, revealer, scale, circular-progress {
+    all: unset;
+}
+
+/** Clock Widgets **/
+.clock_time_sep {
+    font-size: 16px;
+    color: #e879f9;
+    margin: 0 3px;
+    text-shadow: 0 0 8px rgba(232, 121, 249, 0.8);
+}
+
+.clock_time_class, .clock_minute_class {
+    font-size: 18px;
+    color: #e879f9;
+    font-weight: bold;
+    text-shadow: 0 0 12px rgba(232, 121, 249, 1.0), 0 0 20px rgba(232, 121, 249, 0.5);
+}
+
+.clock_date_class {
+    font-size: 16px;
+    margin-left: 10px;
+    color: #c084fc;
+    text-shadow: 0 0 6px rgba(192, 132, 252, 0.8);
+    padding: 0 4px;
+}
+
+.clock_minute_class {
+    margin-right: 10px;
+}
+
+/** Memory and Battery Widgets **/
+.membar, .batbar {
+    color: #c084fc;
+    background-color: #2d1b47;
+    border-radius: 50%;
+}
+
+.iconmem, .iconbat {
+    color: #c084fc;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 4px;
+    background-color: rgba(192, 132, 252, 0.2);
+    border-radius: 4px;
+    text-shadow: 0 0 6px rgba(192, 132, 252, 0.8);
+}
+
+.mem_module {
+    background-color: rgba(26, 15, 46, 0.8);
+    border: 1px solid rgba(192, 132, 252, 0.7);
+    border-radius: 12px;
+    margin: 0 4px;
+    padding: 2px 4px;
+}
+
+/** Volume Widget **/
+.volbar trough highlight {
+    background-image: linear-gradient(to right, #e879f9 30%, #c084fc 50%, #a855f7 100%);
+    border-radius: 10px;
+}
+
+.volume_icon {
+    font-size: 14px;
+    font-weight: bold;
+    color: #e879f9;
+    margin: 0 4px;
+    padding: 2px 6px;
+    background-color: rgba(232, 121, 249, 0.2);
+    border-radius: 6px;
+    border: 1px solid rgba(232, 121, 249, 0.3);
+    text-shadow: 0 0 6px rgba(232, 121, 249, 0.8);
+}
+
+/** Network Widget **/
+.module_essid {
+    font-size: 14px;
+    color: #e879f9;
+    margin-right: 8px;
+    text-shadow: 0 0 6px rgba(232, 121, 249, 0.6);
+}
+
+.module-wif {
+    font-size: 16px;
+    color: #e879f9;
+    border-radius: 8px;
+    margin: 0 6px;
+    padding: 2px 6px;
+    text-shadow: 0 0 12px rgba(232, 121, 249, 0.8), 0 0 20px rgba(232, 121, 249, 0.4);
+    background-color: rgba(232, 121, 249, 0.15);
+    border: 1px solid rgba(232, 121, 249, 0.3);
+}
+
+.module-wif-large {
+    font-size: 24px;
+    color: #e879f9;
+    border-radius: 8px;
+    margin: 0 6px;
+    padding: 2px 6px;
+    text-shadow: 0 0 15px rgba(232, 121, 249, 1.0), 0 0 25px rgba(232, 121, 249, 0.6);
+    background-color: transparent;
+    border: none;
+}
+
+.volume-icon-large {
+    font-size: 24px;
+    color: #e879f9;
+    border-radius: 8px;
+    margin: 0 6px;
+    padding: 2px 6px;
+    text-shadow: 0 0 15px rgba(232, 121, 249, 1.0), 0 0 25px rgba(232, 121, 249, 0.6);
+    background-color: rgba(232, 121, 249, 0.15);
+    border: 1px solid rgba(232, 121, 249, 0.3);
+    font-weight: bold;
+}
+
+.speaker-icon-large {
+    font-size: 48px;
+    color: #e879f9;
+    background-color: transparent;
+    border: none;
+    margin: 10px 20px 5px 20px;
+    text-shadow: 0 0 15px rgba(232, 121, 249, 1.0), 0 0 25px rgba(232, 121, 249, 0.6);
+}
+
+.mic-icon-large {
+    font-size: 48px;
+    color: #e879f9;
+    background-color: transparent;
+    border: none;
+    margin: 5px 20px 20px 20px;
+    text-shadow: 0 0 15px rgba(232, 121, 249, 1.0), 0 0 25px rgba(232, 121, 249, 0.6);
+}
+
+/** Separators **/
+.separ {
+    color: #6b21a8;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 6px;
+    text-shadow: 0 0 4px rgba(107, 33, 168, 0.8);
+}
+
+/** Wofi Launcher **/
+.wofi_launcher {
+    background-color: rgba(232, 121, 249, 0.2);
+    border: 2px solid rgba(232, 121, 249, 0.5);
+    border-radius: 8px;
+    color: #e879f9;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 4px 8px;
+    margin-right: 8px;
+    text-shadow: 0 0 8px rgba(232, 121, 249, 0.8);
+    transition: all 0.3s ease;
+}
+
+.wofi_launcher:hover {
+    background-color: rgba(232, 121, 249, 0.3);
+    border: 2px solid rgba(232, 121, 249, 0.8);
+    box-shadow: 0 0 15px rgba(232, 121, 249, 0.5);
+}
+
+/** Module Containers **/
+.left_modules {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.center_modules {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.right_modules {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mem_module, .bat_module {
+    background-color: rgba(26, 15, 46, 0.8);
+    border: 1px solid rgba(192, 132, 252, 0.7);
+    border-radius: 12px;
+    padding: 2px 4px;
+}
+
+.bat_module {
+    margin: 0 4px;
+}
+
+/** Scale Widget **/
+scale trough {
+    all: unset;
+    background-color: #22242b;
+    border-radius: 8px;
+    min-height: 4px;
+    min-width: 120px;
+    margin: 0 4px 0 0;
+}
+
+/** Workspace Styles **/
+.workspace-container {
+    background-color: rgba(26, 15, 46, 0.8);
+    color: #e879f9;
+    border-radius: 10px;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.workspace-e {
+    cursor: pointer;
+}
+
+.workspace-e:hover {
+    opacity: 0.7;
+}
+
+.workspace-empty,
+.workspace,
+.workspace-active {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.workspace-empty {
+    color: #8b5fbf;
+}
+
+.workspace {
+    color: #e879f9;
+}
+
+.workspace-active {
+    background-color: #8b5fbf;
+    color: #1a0f2e;
+}
+
+/** Music Widgets **/
+.music_icon {
+    color: #e879f9;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0 3px;
+    padding: 2px 5px;
+    border-radius: 4px;
+    background-color: rgba(232, 121, 249, 0.2);
+    text-shadow: 0 0 6px rgba(232, 121, 249, 0.8);
+}
+
+.song {
+    color: #e879f9;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 4px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    background-color: rgba(232, 121, 249, 0.15);
+}
+
+.song_btn_play {
+    color: #e879f9;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 2px;
+    padding: 2px 5px;
+    background-color: rgba(232, 121, 249, 0.2);
+    border-radius: 4px;
+}
+
+.song_btn_prev, .song_btn_next {
+    color: #c084fc;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0 2px;
+    padding: 2px 5px;
+    background-color: rgba(192, 132, 252, 0.2);
+    border-radius: 4px;
+}
+
+/** Calendar Styles **/
+.cal {
+    background-color: #1a0f2e;
+    font-family: "Hack Nerd Font Mono", "MesloLGS NF", monospace;
+    font-size: 18px;
+    font-weight: normal;
+    color: #e879f9;
+}
+
+.cal-in {
+    padding: 0px 10px 0px 10px;
+    color: #e879f9;
+}
+
+calendar {
+    color: #e879f9;
+    padding: 5px 5px 5px 5px;
+    margin-left: 10px;
+}
+
+calendar:selected {
+    color: #c084fc;
+}
+
+calendar.header {
+    color: #c084fc;
+    font-weight: bold;
+}
+
+calendar.button {
+    color: #a855f7;
+}
+
+calendar.highlight {
+    color: #e879f9;
+    font-weight: bold;
+}
+
+calendar:indeterminate {
+    color: #c084fc;
+}
+
+/** System Info Styles **/
+.sys_win {
+    background-color: #1a0f2e;
+}
+
+.sys_bat, .sys_mem {
+    color: #c084fc;
+    background-color: #2d1b47;
+    border-radius: 10px;
+}
+
+.sys_icon_bat, .sys_text_bat {
+    color: #a855f7;
+}
+
+.sys_icon_mem, .sys_text_mem {
+    color: #c084fc;
+}
+
+.sys_text_bat_sub, .sys_text_mem_sub {
+    font-size: 16px;
+    color: #e879f9;
+    margin: 5px 0px 0px 25px;
+}
+
+.sys_text_bat, .sys_text_mem {
+    font-size: 21px;
+    font-weight: bold;
+    margin: 14px 0px 0px 25px;
+}
+
+.sys_icon_bat, .sys_icon_mem {
+    font-size: 30px;
+    margin: 30px;
+}
+
+.sys_sep {
+    color: #6b21a8;
+    font-size: 18px;
+    margin: 0px 10px 0px 10px;
+}
+
+.sys_bat_box, .sys_mem_box {
+    border-radius: 16px;
+    margin: 15px 10px 10px 20px;
+}
+
+.sys_mem_box {
+    margin: 10px 10px 15px 20px;
+}
+
+/** Music Popup Styles **/
+.music_pop {
+    background-color: #1a0f2e;
+    border-radius: 16px;
+}
+
+.music_cover_art {
+    background-size: cover;
+    background-position: center;
+    min-height: 100px;
+    min-width: 170px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
+.music {
+    color: #e879f9;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0px 0px -15px;
+}
+
+.music_artist {
+    color: #c084fc;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
+
+.music_btn_prev, .music_btn_play, .music_btn_next {
+    font-family: "Hack Nerd Font Mono", "MesloLGS NF", monospace;
+}
+
+.music_btn_prev {
+    color: #c084fc;
+    font-size: 32px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
+
+.music_btn_play {
+    color: #e879f9;
+    font-size: 48px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
+
+.music_btn_next {
+    color: #c084fc;
+    font-size: 32px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
+
+.music_bar scale trough highlight {
+    all: unset;
+    background-image: linear-gradient(to right, #e879f9 30%, #c084fc 50%, #a855f7 100%);
+    border-radius: 24px;
+}
+
+.music_bar scale trough {
+    all: unset;
+    background-color: #232232;
+    border-radius: 24px;
+    min-height: 13px;
+    min-width: 190px;
+    margin: -10px 10px 20px 0px;
+}
+
+/** Audio Controls Styles **/
+.audio-box {
+    background-color: #1a0f2e;
+    border-radius: 16px;
+}
+
+.speaker_icon {
+    color: #e879f9;
+    font-size: 48px;
+    background-size: cover;
+    background-position: center;
+    min-height: 70px;
+    min-width: 75px;
+    margin: 10px 20px 5px 20px;
+    border-radius: 12px;
+}
+
+.speaker_text {
+    color: #e879f9;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 20px 0px 0px 0px;
+}
+
+.speaker_bar scale trough highlight {
+    all: unset;
+    background-image: linear-gradient(to right, #e879f9 30%, #c084fc 50%, #a855f7 100%);
+    border-radius: 24px;
+}
+
+.speaker_bar scale trough {
+    all: unset;
+    background-color: #232232;
+    border-radius: 24px;
+    min-height: 13px;
+    min-width: 200px;
+    margin: 0px 0px 5px 0px;
+}
+
+.mic_icon {
+    color: #e879f9;
+    font-size: 48px;
+    background-size: cover;
+    background-position: center;
+    min-height: 70px;
+    min-width: 75px;
+    margin: 5px 20px 20px 20px;
+    border-radius: 12px;
+}
+
+.mic_text {
+    color: #e879f9;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0px 0px 0px 0px;
+}
+
+.mic_bar scale trough highlight {
+    all: unset;
+    background-image: linear-gradient(to right, #e879f9 30%, #c084fc 50%, #a855f7 100%);
+    border-radius: 24px;
+}
+
+.mic_bar scale trough {
+    all: unset;
+    background-color: #232232;
+    border-radius: 24px;
+    min-height: 13px;
+    min-width: 200px;
+    margin: 0px 0px 20px 0px;
+}
+
+.audio_sep {
+    color: #6b21a8;
+    font-size: 18px;
+    margin: 0px 0px 0px 0px;
+}

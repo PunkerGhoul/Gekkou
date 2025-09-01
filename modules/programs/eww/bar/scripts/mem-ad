@@ -1,0 +1,27 @@
+#!/bin/sh
+
+if command -v free >/dev/null 2>&1; then
+    total="$(free -m | grep Mem: | awk '{ print $2 }')"
+    used="$(free -m | grep Mem: | awk '{ print $3 }')"
+    
+    if [ -z "$total" ] || [ -z "$used" ]; then
+        total="0"
+        used="0"
+    fi
+    
+    free=$(expr $total - $used 2>/dev/null || echo "0")
+else
+    total="0"
+    used="0"
+    free="0"
+fi
+
+if [ "$1" = "total" ]; then
+    echo $total
+elif [ "$1" = "used" ]; then
+    echo $used
+elif [ "$1" = "free" ]; then
+    echo $free
+else
+    echo "0"
+fi

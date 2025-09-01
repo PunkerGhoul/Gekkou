@@ -1,0 +1,48 @@
+;; Variables and Polls - EWW Bar Configuration
+
+;; System variable
+(defvar eww "$HOME/.local/bin/eww -c $HOME/.config/eww")
+
+;; Clock polls
+(defpoll clock_time :interval "5m" "date +%I")
+(defpoll clock_minute :interval "5s" "date +%M")
+(defpoll clock_date :interval "10h" "date '+%d/%m'")
+(defpoll calendar_day :interval "20h" "date '+%d'")
+(defpoll calendar_year :interval "20h" "date '+%Y'")
+
+;; Memory polls
+(defpoll memory :interval "15s" :initial "0" "$HOME/.config/eww/bar/scripts/memory")
+(defpoll memory_used_mb :interval "2m" "$HOME/.config/eww/bar/scripts/mem-ad used")
+(defpoll memory_total_mb :interval "2m" "$HOME/.config/eww/bar/scripts/mem-ad total")
+(defpoll memory_free_mb :interval "2m" "$HOME/.config/eww/bar/scripts/mem-ad free")
+
+;; Audio polls - Ultra rápido con wpctl
+(defpoll volume_percent :interval "250ms" :initial "50" "$HOME/.config/eww/bar/scripts/volume_control get")
+(defpoll volume_muted :interval "250ms" :initial "false" "$HOME/.config/eww/bar/scripts/volume_control get-mute")
+(defpoll mic_percent :interval "250ms" :initial "50" "$HOME/.config/eww/bar/scripts/volume_control mic-get")
+(defpoll current_volume :interval "250ms" "$HOME/.config/eww/bar/scripts/volume_control get")
+(defpoll mic_volume :interval "250ms" "$HOME/.config/eww/bar/scripts/volume_control mic-get")
+
+;; Network polls
+(defpoll ESSID_WLAN :interval "1m" "$HOME/.config/eww/bar/scripts/wifi --ESSID")
+(defpoll WLAN_ICON :interval "1m" "$HOME/.config/eww/bar/scripts/wifi --ICON")
+
+;; Music polls
+(defpoll song :interval "2s" "$HOME/.config/eww/bar/scripts/music_info_playerctl --song")
+(defpoll song_artist :interval "2s" "$HOME/.config/eww/bar/scripts/music_info_playerctl --artist")
+(defpoll current_status :interval "1s" "$HOME/.config/eww/bar/scripts/music_info_playerctl --time")
+(defpoll song_status :interval "2s" "$HOME/.config/eww/bar/scripts/music_info_playerctl --status")
+(defpoll cover_art :interval "2s" "$HOME/.config/eww/bar/scripts/music_info_playerctl --cover")
+(defpoll song_length :interval "1s" "playerctl --ignore-player=firefox metadata --format \"{{ duration(mpris:length) }}\" 2>/dev/null")
+(defpoll song_pos :interval "1s" "playerctl --ignore-player=firefox metadata --format \"{{ position }}\" 2>/dev/null")
+(defpoll song_length_raw :interval "1s" "playerctl --ignore-player=firefox metadata --format \"{{ mpris:length }}\" 2>/dev/null")
+(defpoll song_pos_raw :interval "1s" "playerctl --ignore-player=firefox position 2>/dev/null")
+
+;; Workspaces listener
+(deflisten workspace "$HOME/.config/eww/bar/scripts/workspace")
+
+;; Reveal state variables
+(defvar vol_reveal false)
+(defvar music_reveal false)
+(defvar wifi_rev false)
+(defvar time_rev false)
