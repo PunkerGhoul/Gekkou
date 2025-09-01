@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Check if eth0 is up and has an IP
+eth0_ip=$(ip addr show eth0 2>/dev/null | grep "inet " | awk '{print $2}' | cut -d'/' -f1)
+
+# Check if we have internet connectivity
+internet_check=$(ping -c 1 -W 1 8.8.8.8 >/dev/null 2>&1 && echo "connected" || echo "disconnected")
+
+if [ -z "$eth0_ip" ] || [ "$internet_check" = "disconnected" ]; then
+    icon="󰤮"
+    text="Offline"
+    col="#6b21a8"
+else
+    icon="󰈀"
+    text="$eth0_ip"
+    col="#e879f9"
+fi
+
+if [[ "$1" == "--COL" ]]; then
+    echo $col	
+elif [[ "$1" == "--ESSID" ]]; then
+	echo $text
+elif [[ "$1" == "--ICON" ]]; then
+	echo $icon
+fi

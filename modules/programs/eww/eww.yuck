@@ -1,0 +1,11 @@
+;; EWW Main Configuration File
+;; Gekkou Cyberpunk Theme
+
+;; Include bar configuration
+(include "bar/bar.yuck")
+
+;; Global variables and polling
+(defpoll time :interval "1s" "date +'%H:%M'")
+(defpoll date :interval "10s" "date +'%A, %d %B'")
+
+;; Main EWW configuration

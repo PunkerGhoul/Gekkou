@@ -1,0 +1,105 @@
+#!/bin/bash
+
+# Map numbers 1-10 to Kanji
+declare -A kanji_map=(
+    [1]="" [2]="" [3]="" [4]="󰊠" [5]=""
+    [6]="" [7]="" [8]="" [9]="" [10]=""
+)
+
+workspaces() {
+    local persistent=(1 2 3 4 5 6)
+    local output=""
+    
+    # Single hyprctl call to get current workspace - much faster
+    local current_workspace=$(hyprctl -j activeworkspace | jq -r '.id')
+    
+    # Get workspace data once
+    local workspace_data=$(hyprctl -j workspaces)
+    
+    # Pre-calculate workspace windows for efficiency
+    declare -A ws_windows=()
+    while IFS= read -r line; do
+        local id=$(echo "$line" | jq -r '.id')
+        local windows=$(echo "$line" | jq -r '.windows // 0')
+        ws_windows[$id]=$windows
+    done < <(echo "$workspace_data" | jq -c '.[]')
+    
+    # Show persistent workspaces + any active/occupied workspaces
+    declare -A show_ws=()
+    for wsid in "${persistent[@]}"; do
+        show_ws[$wsid]=1
+    done
+    
+    # Add any non-persistent workspaces that are active or have windows
+    for wsid in "${!ws_windows[@]}"; do
+        if [[ " ${persistent[*]} " != *" $wsid "* ]]; then
+            if [[ "$current_workspace" -eq "$wsid" || "${ws_windows[$wsid]}" -gt 0 ]]; then
+                show_ws[$wsid]=1
+            fi
+        fi
+    done
+    
+    # Sort workspace IDs numerically
+    mapfile -t ws_to_show < <(printf "%s\n" "${!show_ws[@]}" | sort -n)
+    
+    # Build output string for all workspaces to show in numeric order
+    for wsid in "${ws_to_show[@]}"; do
+        # Skip negative workspace IDs (Special Workspaces)
+        if ((wsid < 0)); then
+            continue
+        fi
+        
+        # Get windows count from pre-calculated array
+        local windows="${ws_windows[$wsid]:-0}"
+        
+        # Use Kanji/Nerd Font labels for IDs 1-10
+        if [[ "$wsid" -ge 1 && "$wsid" -le 10 ]]; then
+            label="${kanji_map[$wsid]}"
+        else
+            label="$wsid"
+        fi
+        
+        # Determine class inline for better performance
+        local cls=""
+        if [[ "$current_workspace" -eq "$wsid" ]]; then
+            cls="workspace-active"
+        elif [[ " ${persistent[*]} " == *" $wsid "* ]]; then
+            if [[ "$windows" -gt 0 ]]; then
+                cls="workspace"
+            else
+                cls="workspace-empty"
+            fi
+        elif [[ "$windows" -gt 0 ]]; then
+            cls="workspace"
+        fi
+        
+        # Append to output only if class is non-empty
+        if [[ -n "$cls" ]]; then
+            output+="(eventbox :class \"workspace-e\" :cursor \"pointer\" :onclick \"hyprctl dispatch workspace $wsid\" (label :class \"$cls\" :text \"$label\"))"
+        fi
+    done
+    
+    echo "(box :halign 'start' :orientation 'h' :class 'workspace-container' $output)"
+}
+
+XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+HYPRLAND_SIGNATURE_ACTUAL=$(ls -td "$XDG_RUNTIME_DIR/hypr/"*/ 2>/dev/null | head -n1 | xargs -r basename)
+
+if [[ -z "$HYPRLAND_SIGNATURE_ACTUAL" ]]; then
+    echo "No Hyprland socket found. Exiting."
+    exit 1
+fi
+
+SOCKET="$XDG_RUNTIME_DIR/hypr/${HYPRLAND_SIGNATURE_ACTUAL}/.socket2.sock"
+
+workspaces
+
+# Listen to hyprland events and update workspaces with minimal latency
+exec 3< <(socat -u UNIX-CONNECT:"$SOCKET" -)
+while IFS= read -r line <&3; do
+    case $line in
+        workspace\>\>*|createworkspace\>\>*|destroyworkspace\>\>*)
+            workspaces
+            ;;
+    esac
+done

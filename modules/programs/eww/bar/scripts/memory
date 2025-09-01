@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Intentar obtener el uso de memoria
+if command -v free >/dev/null 2>&1; then
+    mem=$(free -m | grep Mem | awk '{print ($3/$2)*100}')
+    if [ -n "$mem" ] && [ "$mem" != "" ]; then
+        printf "%.0f\n" "$mem"
+    else
+        echo "0"
+    fi
+else
+    echo "0"
+fi

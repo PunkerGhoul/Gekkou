@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# Script optimizado para control de volumen sin timeouts
+# Usa timeout para evitar que pamixer se cuelgue
+
+TIMEOUT="0.5s"
+
+case "$1" in
+    get)
+        timeout "$TIMEOUT" pamixer --get-volume 2>/dev/null || echo "50"
+        ;;
+    get-mute)
+        timeout "$TIMEOUT" pamixer --get-mute 2>/dev/null || echo "false"
+        ;;
+    toggle-mute)
+        timeout "$TIMEOUT" pamixer --toggle-mute 2>/dev/null
+        ;;
+    increase)
+        timeout "$TIMEOUT" pamixer -i 5 2>/dev/null
+        ;;
+    decrease)
+        timeout "$TIMEOUT" pamixer -d 5 2>/dev/null
+        ;;
+    set)
+        if [ -n "$2" ]; then
+            timeout "$TIMEOUT" pamixer --set-volume "$2" 2>/dev/null
+        fi
+        ;;
+    mic-toggle)
+        timeout "$TIMEOUT" pamixer --default-source --toggle-mute 2>/dev/null
+        ;;
+    mic-get)
+        timeout "$TIMEOUT" pamixer --default-source --get-volume 2>/dev/null || echo "50"
+        ;;
+    mic-set)
+        if [ -n "$2" ]; then
+            timeout "$TIMEOUT" pamixer --default-source --set-volume "$2" 2>/dev/null
+        fi
+        ;;
+    *)
+        echo "Uso: $0 {get|get-mute|toggle-mute|increase|decrease|set|mic-toggle|mic-get|mic-set} [valor]"
+        exit 1
+        ;;
+esac
