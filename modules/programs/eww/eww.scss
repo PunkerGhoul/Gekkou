@@ -1,0 +1,29 @@
+/** EWW Global Cyberpunk Purple Theme **/
+
+/* Import bar styles */
+@import "bar/bar.scss";
+
+/* Global reset and font configuration */
+* {
+    all: unset;
+    font-family: "Hack Nerd Font Mono", "MesloLGS NF", monospace;
+}
+
+/* Global window configuration */
+window {
+    background-color: transparent;
+}
+
+/* Global tooltip styles */
+tooltip {
+    background-color: #1a0f2e;
+    color: #e879f9;
+    font-size: 14px;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+tooltip label {
+    margin: 2px;
+    color: #e879f9;
+}

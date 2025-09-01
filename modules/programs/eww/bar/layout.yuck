@@ -1,0 +1,40 @@
+;; Bar Layout - EWW Bar Configuration
+
+(defwidget left []
+  (box :orientation "h"
+       :space-evenly false
+       :halign "start"
+       :valign "center"
+       :class "left_modules"
+       :spacing 10
+    (wofi_launcher)
+    (box :valign "center" (workspaces))))
+
+(defwidget center []
+  (box :orientation "h"
+       :space-evenly false
+       :halign "center"
+       :valign "center"
+       :class "center_modules"
+       :spacing 10
+    (music)))
+
+(defwidget right []
+  (box :orientation "h"
+       :space-evenly false
+       :halign "end"
+       :valign "center"
+       :class "right_modules"
+       :spacing 10
+    (volum)
+    (wifi)
+    (mem)
+    (clock_module)))
+
+(defwidget bar_1 []
+  (box :class "bar_class"
+       :orientation "h"
+       :valign "center"
+    (left)
+    (center)
+    (right)))

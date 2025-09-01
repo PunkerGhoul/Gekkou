@@ -1,0 +1,74 @@
+;; Windows - EWW Bar Configuration
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "5px"
+                      :width "98%"
+                      :height "36px"
+                      :anchor "top center")
+  :stacking "fg"
+  :windowtype "dock"
+  :reserve (struts :side "top" :distance "48px")
+  :layer "top"
+  :exclusive true
+  (bar_1))
+
+(defwidget system []
+  (box :class "sys_win" :orientation "v" :space-evenly false :hexpand false :vexpand false :spacing 0
+    (box :class "sys_mem_box" :orientation "h" :space-evenly false :halign "start"
+      (circular-progress :value memory
+                         :class "sys_mem"
+                         :thickness 9
+        (label :text "" :class "sys_icon_mem" :wrap false))
+      (box :orientation "v" :space-evenly false :spacing 0 :halign "start" :vexpand false :hexpand false
+        (label :text "mem:" :class "sys_text_mem" :valign "start" :halign "start")
+        (label :text "${memory_used_mb} | ${memory_total_mb}mb" :class "sys_text_mem_sub" :valign "start" :halign "start")))))
+
+(defwindow system
+  :geometry (geometry :x "0px" :y "7%" :width "290px" :height "120px")
+  (system))
+
+(defwindow calendar
+  :geometry (geometry :x "0px"
+                      :y "7%"
+                      :width "270px"
+                      :height "60px")
+  (calendar :class "cal" :day calendar_day :year calendar_year))
+
+(defwidget audio []
+  (box :class "audio-box" :orientation "v" :space-evenly false :vexpand false :hexpand false
+    (box :vexpand false :hexpand false :space-evenly false :orientation "v" :halign "center"
+      (button :class "speaker-icon-large" 
+              :onclick "$HOME/.config/eww/bar/scripts/volume_control toggle-mute"
+              "墳")
+      (label :text "speaker" :class "speaker_text" :valign "center" :halign "center")
+      (scale :class "speaker_bar" :value current_volume :orientation "h" :tooltip "${current_volume}%" :max 100 :min 0 :onchange "$HOME/.config/eww/bar/scripts/volume_control set {}"))
+    (label :text "○" :class "audio_sep" :valign "center" :halign "center")
+    (box :vexpand false :hexpand false :space-evenly false :orientation "v" :halign "center"
+      (button :class "mic-icon-large"
+              :onclick "$HOME/.config/eww/bar/scripts/volume_control mic-toggle"
+              "")
+      (label :text "mic" :class "mic_text" :valign "center" :halign "center")
+      (scale :class "mic_bar" :value mic_volume :orientation "h" :tooltip "${mic_volume}%" :max 100 :min 0 :onchange "$HOME/.config/eww/bar/scripts/volume_control mic-set {}"))))
+
+(defwindow audio_ctl
+  :geometry (geometry :x "0px" :y "7%" :width "280px" :height "300px")
+  (audio))
+
+(defwidget music_pop []
+  (box :class "music_pop" :orientation "h" :space-evenly false :vexpand false :hexpand false
+    (box :class "music_cover_art" :vexpand false :hexpand false :style "background-image: url('${cover_art}');")
+    (box :orientation "v" :spacing 20 :space-evenly false :vexpand false :hexpand false
+      (label :halign "center" :class "music" :wrap true :text song)
+      (label :halign "center" :class "music_artist" :wrap true :text song_artist)
+      (box :orientation "h" :spacing 15 :halign "center" :space-evenly false :vexpand false :hexpand false
+        (button :class "music_btn_prev" :onclick "playerctl previous" "")
+        (button :class "music_btn_play" :onclick "playerctl play-pause" song_status)
+        (button :class "music_btn_next" :onclick "playerctl next" ""))
+      (box :class "music_bar" :halign "center" :vexpand false :hexpand false
+        (scale :onchange "playerctl position {}" :min 0 :active song_length_raw :max song_length_raw :value song_pos_raw)))))
+
+(defwindow music_win
+  :geometry (geometry :x "0px" :y "7%" :width "428px" :height "104px")
+  (music_pop))

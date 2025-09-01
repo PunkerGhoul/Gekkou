@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+# Script optimizado para control de volumen
+# Usa wpctl que es más rápido y confiable que pamixer
+
+case "$1" in
+    get)
+        wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2 * 100)}'
+        ;;
+    get-mute)
+        muted=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -o "MUTED" || echo "")
+        if [ -n "$muted" ]; then
+            echo "true"
+        else
+            echo "false"
+        fi
+        ;;
+    toggle-mute)
+        wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+        # Forzar actualización inmediata
+        sleep 0.05
+        ;;
+    increase)
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+        ;;
+    decrease)
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+        ;;
+    set)
+        if [ -n "$2" ]; then
+            wpctl set-volume @DEFAULT_AUDIO_SINK@ "${2}%"
+        fi
+        ;;
+    mic-toggle)
+        wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+        ;;
+    mic-get)
+        wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{print int($2 * 100)}'
+        ;;
+    mic-set)
+        if [ -n "$2" ]; then
+            wpctl set-volume @DEFAULT_AUDIO_SOURCE@ "${2}%"
+        fi
+        ;;
+    *)
+        echo "Uso: $0 {get|get-mute|toggle-mute|increase|decrease|set|mic-toggle|mic-get|mic-set} [valor]"
+        exit 1
+        ;;
+esac

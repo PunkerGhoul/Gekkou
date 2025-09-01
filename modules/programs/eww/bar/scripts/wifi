@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Función para obtener la primera interfaz activa con IP
+get_active_interface() {
+    # Prioridad: tun0 (VPN) > interfaces inalámbricas > interfaces ethernet
+    
+    # 1. Verificar tun0 (VPN)
+    if ip addr show tun0 2>/dev/null | grep -q "inet "; then
+        echo "tun0"
+        return 0
+    fi
+    
+    # 2. Verificar interfaces inalámbricas (wlan*, wlp*)
+    for iface in $(ip link show | grep -E "wlan|wlp" | awk -F': ' '{print $2}' | cut -d'@' -f1); do
+        if ip addr show "$iface" 2>/dev/null | grep -q "inet "; then
+            echo "$iface"
+            return 0
+        fi
+    done
+    
+    # 3. Verificar interfaces ethernet (eth*, enp*, eno*)
+    for iface in $(ip link show | grep -E "eth|enp|eno" | awk -F': ' '{print $2}' | cut -d'@' -f1); do
+        if ip addr show "$iface" 2>/dev/null | grep -q "inet "; then
+            echo "$iface"
+            return 0
+        fi
+    done
+    
+    # No se encontró ninguna interfaz activa
+    return 1
+}
+
+# Obtener la interfaz activa
+active_iface=$(get_active_interface)
+
+if [ -z "$active_iface" ]; then
+    # Sin conexión
+    icon="󰤮"
+    text="Offline"
+    col="#6b21a8"
+else
+    # Obtener IP de la interfaz activa
+    iface_ip=$(ip addr show "$active_iface" 2>/dev/null | grep "inet " | awk '{print $2}' | cut -d'/' -f1)
+    
+    # Determinar el icono según el tipo de interfaz
+    case "$active_iface" in
+        tun*)
+            icon="󰖂"  # VPN
+            text="VPN: $iface_ip"
+            ;;
+        wlan*|wlp*)
+            # Obtener ESSID si es WiFi
+            essid=$(iwgetid -r 2>/dev/null || echo "WiFi")
+            icon="󰖩"  # WiFi conectado
+            text="$essid"
+            ;;
+        *)
+            icon="󰈀"  # Ethernet
+            text="$iface_ip"
+            ;;
+    esac
+    col="#e879f9"
+fi
+
+if [[ "$1" == "--COL" ]]; then
+    echo $col	
+elif [[ "$1" == "--ESSID" ]]; then
+	echo $text
+elif [[ "$1" == "--ICON" ]]; then
+	echo $icon
+fi
