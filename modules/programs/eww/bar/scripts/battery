@@ -1,0 +1,26 @@
+#!/bin/bash
+
+battery() {
+	BAT=`ls /sys/class/power_supply | grep BAT | head -n 1`
+	if [[ -n "$BAT" && -f "/sys/class/power_supply/${BAT}/capacity" ]]; then
+		cat /sys/class/power_supply/${BAT}/capacity
+	else
+		echo "100"  # Fallback para VM sin batería
+	fi
+}
+
+battery_stat() {
+	BAT=`ls /sys/class/power_supply | grep BAT | head -n 1`
+	if [[ -n "$BAT" && -f "/sys/class/power_supply/${BAT}/status" ]]; then
+		cat /sys/class/power_supply/${BAT}/status
+	else
+		echo "Full"  # Fallback para VM sin batería
+	fi
+}
+
+if [[ "$1" == "--bat" ]]; then
+	battery
+elif [[ "$1" == "--bat-st" ]]; then
+	battery_stat
+fi
+

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+FILE="$HOME/.cache/eww_launch.xyz"
+CONFIG_DIR="$(dirname "$(realpath "$0")")"
+EWW="eww -c $CONFIG_DIR"
+
+if [[ ! `pidof eww` ]]; then
+	${EWW} daemon
+	sleep 1
+fi
+
+run_eww() {
+	${EWW} open bar
+}
+
+if [[ ! -f "$FILE" ]]; then
+	touch "$FILE"
+	run_eww
+	echo "EWW bar launched"
+else
+	${EWW} close-all && killall eww
+	rm "$FILE"
+	echo "EWW bar closed"
+fi
