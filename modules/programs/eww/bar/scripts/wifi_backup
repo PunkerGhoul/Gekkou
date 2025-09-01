@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Check general network connectivity
+status=$(nmcli g | grep -oE "disconnected")
+
+# Try to get active connection (WiFi or Ethernet)
+active_connection=$(nmcli -t connection show --active | head -1 | cut -d: -f1)
+
+# Check if we have internet connectivity
+internet_check=$(ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1 && echo "connected" || echo "disconnected")
+
+if [ "$status" = "disconnected" ] || [ "$internet_check" = "disconnected" ] ; then
+    icon=""
+    text="Offline"
+    col="#575268"
+elif [ -n "$active_connection" ] ; then
+    # Check if it's ethernet or wifi
+    if echo "$active_connection" | grep -q -i "ethernet\|wired\|enp"; then
+        icon=""
+        text="Ethernet"
+        col="#e879f9"
+    else
+        icon=""
+        text="${active_connection}"
+        col="#e879f9"
+    fi
+else
+    icon=""
+    text="Offline"
+    col="#575268"
+fistatus=$(nmcli g | grep -oE "disconnected")
+essid=$(nmcli c | grep wlp2s0 | awk '{print ($1)}')
+
+if [ $status ] ; then
+    icon=""
+    text=""
+    col="#575268"
+
+else
+    icon=""
+    text="${essid}"
+    col="#a1bdce"
+fi
+
+
+
+if [[ "$1" == "--COL" ]]; then
+    echo $col	
+elif [[ "$1" == "--ESSID" ]]; then
+	echo $text
+elif [[ "$1" == "--ICON" ]]; then
+	echo $icon
+fi
+

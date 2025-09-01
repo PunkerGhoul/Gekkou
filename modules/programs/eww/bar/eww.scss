@@ -1,0 +1,416 @@
+/** EWW Cyberpunk Purple Theme **/
+* {
+    all: unset;
+    font-family: "Hack Nerd Font", monospace;
+}
+
+/** General **/
+.bar_class {
+    background-color: #1a0f2e;
+    border: 2px solid #8b5fbf;
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(139, 95, 191, 0.4);
+    padding: 4px 12px;
+}
+
+window {
+    background-color: transparent;
+}
+
+/** Widgets **/
+.clock_time_sep {
+    font-size: 14px;
+    color: #e879f9;
+    margin: 0px 3px 1px 3px;
+    text-shadow: 0 0 8px rgba(232, 121, 249, 0.5);
+}
+
+.clock_time_class, .clock_minute_class {
+    font-size: 18px;
+    color: #e879f9;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(232, 121, 249, 0.5);
+}
+
+.clock_date_class {
+    font-size: 14px;
+    margin: 0px 15px 0px -1px;
+    color: #c084fc;
+    text-shadow: 0 0 6px rgba(192, 132, 252, 0.6);
+}
+
+.clock_minute_class {
+    margin: 0px 20px 0px 3px;
+}
+
+.membar, .batbar {
+    color: #c084fc;
+    background-color: #2d1b47;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(192, 132, 252, 0.4);
+}
+
+.volbar trough highlight {
+    background-image: linear-gradient(to right, #e879f9 30%, #c084fc 50%, #a855f7 100%);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(232, 121, 249, 0.3);
+}
+
+.volume_icon {
+    font-size: 16px;
+    color: #e879f9;
+    margin: 0px 6px 0px 6px;
+    text-shadow: 0 0 8px rgba(232, 121, 249, 0.5);
+}
+
+.module_essid {
+    font-size: 14px;
+    color: #e879f9;
+    margin: 0px 8px 0px 0px;
+    text-shadow: 0 0 6px rgba(232, 121, 249, 0.6);
+}
+
+.module-wif {
+    font-size: 16px;
+    color: #e879f9;
+    border-radius: 100%;
+    margin: 0px 8px 0px 4px;
+    text-shadow: 0 0 8px rgba(232, 121, 249, 0.5);
+}
+
+.iconmem, .iconbat {
+    color: #c084fc;
+    font-size: 12px;
+    margin: 6px;
+    text-shadow: 0 0 6px rgba(192, 132, 252, 0.6);
+}
+
+.separ {
+    color: #6b21a8;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0px 6px 0px 6px;
+    text-shadow: 0 0 4px rgba(107, 33, 168, 0.8);
+}
+
+.mem_module, .bat_module {
+    background-color: #1a0f2e;
+    border: 1px solid #c084fc;
+    border-radius: 12px;
+    margin: 0px 6px 0px 2px;
+    box-shadow: 0 1px 10px rgba(192, 132, 252, 0.3);
+}
+
+.bat_module {
+    margin: 0px 6px 0px 6px;
+}
+
+scale trough {
+    all: unset;
+    background-color: #22242b;
+    box-shadow: 0 1px 2px 1px #06060b;
+    border-radius: 12px;
+    min-height: 6px;
+    min-width: 50px;
+    margin: 0px 6px 0px 0px;
+}
+
+.works {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 4px 8px;
+    padding: 4px;
+    background-color: rgba(26, 15, 46, 0.8);
+    border-radius: 8px;
+    border: 1px solid rgba(139, 95, 191, 0.3);
+    box-shadow: 0 2px 10px rgba(139, 95, 191, 0.2);
+}
+
+/* Workspace states */
+.ws0 { color: #6b21a8; margin: 0px 10px 0px 0px; }
+.ws01, .ws02, .ws03, .ws04, .ws05, .ws06 { color: #e879f9; margin: 0px 10px 0px 0px; }
+.ws011, .ws022, .ws033, .ws044, .ws055, .ws066 { color: #c084fc; margin: 0px 10px 0px 0px; }
+
+/* Music */
+.song_cover_art {
+    background-size: cover;
+    background-position: center;
+    min-height: 24px;
+    min-width: 24px;
+    margin: 10px;
+    border-radius: 100px;
+}
+
+.song {
+    color: #e879f9;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 3px 5px 0px 0px;
+}
+
+.song_btn_play {
+    color: #e879f9;
+    font-size: 28px;
+    margin: 3px 0px 0px 5px;
+}
+
+.song_btn_prev, .song_btn_next {
+    color: #c084fc;
+    font-size: 24px;
+    margin: 3px 0px 0px 5px;
+}
+
+/* Calendar */
+.cal {
+    background-color: #1a0f2e;
+    font-family: "Hack Nerd Font", monospace;
+    font-size: 18px;
+    font-weight: normal;
+    color: #e879f9;
+}
+
+.cal-in {
+    padding: 0px 10px 0px 10px;
+    color: #e879f9;
+}
+
+calendar {
+    color: #e879f9;
+    padding: 5px 5px 5px 5px;
+    margin-left: 10px;
+}
+
+calendar:selected {
+    color: #c084fc;
+}
+
+calendar.header {
+    color: #c084fc;
+    font-weight: bold;
+}
+
+calendar.button {
+    color: #a855f7;
+}
+
+calendar.highlight {
+    color: #e879f9;
+    font-weight: bold;
+}
+
+calendar:indeterminate {
+    color: #c084fc;
+}
+
+/* System info */
+.sys_win {
+    background-color: #1a0f2e;
+}
+
+.sys_bat, .sys_mem {
+    color: #c084fc;
+    background-color: #2d1b47;
+    border-radius: 10px;
+}
+
+.sys_icon_bat, .sys_text_bat {
+    color: #a855f7;
+}
+
+.sys_icon_mem, .sys_text_mem {
+    color: #c084fc;
+}
+
+.sys_text_bat_sub, .sys_text_mem_sub {
+    font-size: 16px;
+    color: #e879f9;
+    margin: 5px 0px 0px 25px;
+}
+
+.sys_text_bat, .sys_text_mem {
+    font-size: 21px;
+    font-weight: bold;
+    margin: 14px 0px 0px 25px;
+}
+
+.sys_icon_bat, .sys_icon_mem {
+    font-size: 30px;
+    margin: 30px;
+}
+
+.sys_sep {
+    color: #6b21a8;
+    font-size: 18px;
+    margin: 0px 10px 0px 10px;
+}
+
+.sys_bat_box, .sys_mem_box {
+    border-radius: 16px;
+    margin: 15px 10px 10px 20px;
+}
+
+.sys_mem_box {
+    margin: 10px 10px 15px 20px;
+}
+
+/* Music popup */
+.music_pop {
+    background-color: #1a0f2e;
+    border-radius: 16px;
+}
+
+.music_cover_art {
+    background-size: cover;
+    background-position: center;
+    min-height: 100px;
+    box-shadow: 5px 5px 5px 5px #06060b;
+    min-width: 170px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
+.music {
+    color: #e879f9;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0px 0px -15px;
+}
+
+.music_artist {
+    color: #c084fc;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
+
+.music_btn_prev, .music_btn_play, .music_btn_next {
+    font-family: "Hack Nerd Font", monospace;
+}
+
+.music_btn_prev {
+    color: #c084fc;
+    font-size: 32px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
+
+.music_btn_play {
+    color: #e879f9;
+    font-size: 48px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
+
+.music_btn_next {
+    color: #c084fc;
+    font-size: 32px;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+}
+
+.music_bar scale trough highlight {
+    all: unset;
+    background-image: linear-gradient(to right, #e879f9 30%, #c084fc 50%, #a855f7 100%);
+    border-radius: 24px;
+}
+
+.music_bar scale trough {
+    all: unset;
+    background-color: #232232;
+    box-shadow: 0 6px 5px 2px #06060b;
+    border-radius: 24px;
+    min-height: 13px;
+    min-width: 190px;
+    margin: -10px 10px 20px 0px;
+}
+
+/* Audio */
+.audio-box {
+    background-color: #1a0f2e;
+    border-radius: 16px;
+}
+
+.speaker_icon {
+    background-size: cover;
+    background-image: url('images/speaker.png');
+    background-position: center;
+    min-height: 70px;
+    min-width: 75px;
+    margin: 10px 20px 5px 20px;
+    border-radius: 12px;
+}
+
+.speaker_text {
+    color: #e879f9;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 20px 0px 0px 0px;
+}
+
+.speaker_bar scale trough highlight {
+    all: unset;
+    background-image: linear-gradient(to right, #e879f9 30%, #c084fc 50%, #a855f7 100%);
+    border-radius: 24px;
+}
+
+.speaker_bar scale trough {
+    all: unset;
+    background-color: #232232;
+    box-shadow: 0 6px 5px 2px #06060b;
+    border-radius: 24px;
+    min-height: 13px;
+    min-width: 120px;
+    margin: 0px 0px 5px 0px;
+}
+
+.mic_icon {
+    background-size: cover;
+    background-image: url('images/mic.png');
+    background-position: center;
+    min-height: 70px;
+    min-width: 75px;
+    margin: 5px 20px 20px 20px;
+    border-radius: 12px;
+}
+
+.mic_text {
+    color: #e879f9;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0px 0px 0px 0px;
+}
+
+.mic_bar scale trough highlight {
+    all: unset;
+    background-image: linear-gradient(to right, #e879f9 30%, #c084fc 50%, #a855f7 100%);
+    border-radius: 24px;
+}
+
+.mic_bar scale trough {
+    all: unset;
+    box-shadow: 0 6px 5px 2px #06060b;
+    background-color: #232232;
+    border-radius: 24px;
+    min-height: 13px;
+    min-width: 120px;
+    margin: 0px 0px 20px 0px;
+}
+
+.audio_sep {
+    color: #6b21a8;
+    font-size: 18px;
+    margin: 0px 0px 0px 0px;
+}
+
+/* Tooltips */
+tooltip {
+    background-color: #1a0f2e;
+    font-size: 18px;
+    border-radius: 10px;
+    color: #e879f9;
+}
+
+tooltip label {
+    margin: 6px;
+    color: #e879f9;
+}

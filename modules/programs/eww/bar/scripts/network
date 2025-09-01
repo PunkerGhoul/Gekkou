@@ -1,0 +1,27 @@
+#!/bin/bash
+interface=$(nmcli device | grep -E "(ethernet|wifi)" | grep "connected" | awk '{print $1}' | head -n 1)
+connection_type=$(nmcli device | grep "$interface" | awk '{print $2}')
+status=$(nmcli networking connectivity)
+
+if [ "$status" = "full" ] || [ "$status" = "limited" ]; then
+    connection_name=$(nmcli connection show --active | grep -E "(ethernet|wifi)" | awk '{print $1}' | head -n 1)
+    
+    if [ "$connection_type" = "ethernet" ]; then
+        icon="󰈀"
+        text="${connection_name:-Ethernet}"
+    else
+        icon="󰖩"
+        text="${connection_name:-WiFi}"
+    fi
+    col="#e879f9"
+else
+    icon="󰌙"
+    text="Offline"
+    col="#6b21a8"
+fi
+
+case "$1" in
+    "--COL") echo $col ;;
+    "--ESSID") echo $text ;;
+    "--ICON") echo $icon ;;
+esac

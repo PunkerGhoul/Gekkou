@@ -1,0 +1,76 @@
+#!/bin/sh
+
+workspaces() {
+    ws    ic_1="1"
+    ic_2="2"
+    ic_3="3"
+    ic_4="4"
+    ic_5="5"
+    ic_6="6"
+
+    if [ "$f1" ]; then ic_1=""
+    elif [ "$f2" ]; then ic_2=""
+    elif [ "$f3" ]; then ic_3=""
+    elif [ "$f4" ]; then ic_4=""
+    elif [ "$f5" ]; then ic_5=""
+    elif [ "$f6" ]; then ic_6=""echo "(box :class \"works\" :orientation \"h\" :spacing 5 :space-evenly \"false\" \
+        (button :onclick \"hyprctl dispatch workspace $ws1\" :class \"ws$un$o1$f1\" \"$ic_1\") \
+        (button :onclick \"hyprctl dispatch workspace $ws2\" :class \"ws$un$o2$f2\" \"$ic_2\") \
+        (button :onclick \"hyprctl dispatch workspace $ws3\" :class \"ws$un$o3$f3\" \"$ic_3\") \
+        (button :onclick \"hyprctl dispatch workspace $ws4\" :class \"ws$un$o4$f4\" \"$ic_4\") \
+        (button :onclick \"hyprctl dispatch workspace $ws5\" :class \"ws$un$o5$f5\" \"$ic_5\") \
+        (button :onclick \"hyprctl dispatch workspace $ws6\" :class \"ws$un$o6$f6\" \"$ic_6\")\)"2"
+    ws3="3"
+    ws4="4"
+    ws5="5"
+    ws6="6"
+
+    un="0"
+
+    # Ocupados
+    o1=$(hyprctl workspaces -j | jq -r '.[] | select(.id==1)' | wc -l)
+    o2=$(hyprctl workspaces -j | jq -r '.[] | select(.id==2)' | wc -l)
+    o3=$(hyprctl workspaces -j | jq -r '.[] | select(.id==3)' | wc -l)
+    o4=$(hyprctl workspaces -j | jq -r '.[] | select(.id==4)' | wc -l)
+    o5=$(hyprctl workspaces -j | jq -r '.[] | select(.id==5)' | wc -l)
+    o6=$(hyprctl workspaces -j | jq -r '.[] | select(.id==6)' | wc -l)
+
+    # Activo
+    active=$(hyprctl activeworkspace -j | jq -r '.id')
+    f1=$([ "$active" = "1" ] && echo "1")
+    f2=$([ "$active" = "2" ] && echo "2")
+    f3=$([ "$active" = "3" ] && echo "3")
+    f4=$([ "$active" = "4" ] && echo "4")
+    f5=$([ "$active" = "5" ] && echo "5")
+    f6=$([ "$active" = "6" ] && echo "6")
+
+    ic_1=""
+    ic_2="󰖟"
+    ic_3=""
+    ic_4="󱞁"
+    ic_5=""
+    ic_6=""
+
+    if [ "$f1" ]; then ic_1=""
+    elif [ "$f2" ]; then ic_2="󰖟"
+    elif [ "$f3" ]; then ic_3=""
+    elif [ "$f4" ]; then ic_4="󱞁"
+    elif [ "$f5" ]; then ic_5=""
+    elif [ "$f6" ]; then ic_6=""
+    fi
+
+    echo "(box :class \"works\" :orientation \"h\" :spacing 5 :space-evenly \"false\" \
+        (button :onclick \"hyprctl dispatch workspace $ws1\" :class \"$un$o1$f1\" \"$ic_1\") \
+        (button :onclick \"hyprctl dispatch workspace $ws2\" :class \"$un$o2$f2\" \"$ic_2\") \
+        (button :onclick \"hyprctl dispatch workspace $ws3\" :class \"$un$o3$f3\" \"$ic_3\") \
+        (button :onclick \"hyprctl dispatch workspace $ws4\" :class \"$un$o4$f4\" \"$ic_4\") \
+        (button :onclick \"hyprctl dispatch workspace $ws5\" :class \"$un$o5$f5\" \"$ic_5\") \
+        (button :onclick \"hyprctl dispatch workspace $ws6\" :class \"$un$o6$f6\" \"$ic_6\"))"
+}
+
+workspaces
+
+hyprctl -j -i events | jq -r 'select(.type=="workspace")' | while read -r _; do
+    workspaces
+done
+
